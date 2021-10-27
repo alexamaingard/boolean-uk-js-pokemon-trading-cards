@@ -1,27 +1,4 @@
-// - Make sure you check and understand the data that is given to you!
-// - Create a card using JS that represents a single pokemon, use the 
-//example image as a reference. You will also find an HTML example commented 
-//out in the index.html
-// - Use the exact CSS classes you see in the example HTML to obtain the 
-//same style for each card
-// - The cards should be nested inside <ul class="cards"></ul>
-// - Use the official-artwork object key as the images for the card. The 
-//images are all inside of the sprites key, in each pokemon object
-// pokemon.sprites.other['official-artwork'].front_default
-
-// - Render all the cards on the page that represents all the pokemons, 
-//recreating the same layout, using JS
-
 let pokemons = [];
-const pokemon = {
-    name: 'name',
-    hp: 'hp',
-    attack: 'attack',
-    defense: 'defense',
-    sp_at: 'special attack',
-    sp_def: 'special defense',
-    speed: 'speed'
-};
 
 for(let i = 0; i < data.length; i++){
     const numberOfStats = data[i].stats.length;
@@ -31,18 +8,24 @@ for(let i = 0; i < data.length; i++){
         aux.push(data[i].stats[j].base_stat);
     }
     aux.push(data[i].sprites.other["official-artwork"].front_default);
+    const numberOfGames = data[i].game_indices.length;
+    let games = [];
+    for(let j = 0; j < numberOfGames; j++){
+        games.push(data[i].game_indices[j].version.name);
+    }
     const newPokemon = {
-            name: aux[0],
-            hp: aux[1],
-            attack: aux[2],
-            defense: aux[3],
-            sp_at: aux[4],
-            sp_def: aux[5],
-            speed: aux[6],
-            image: aux[7]
-        }
-        pokemons.push(newPokemon);
-        //pokemons.push([data[i].name, data[i].stats[j].stat.name, data[i].stats[j].base_stat]);
+        name: aux[0],
+        hp: aux[1],
+        attack: aux[2],
+        defense: aux[3],
+        sp_at: aux[4],
+        sp_def: aux[5],
+        speed: aux[6],
+        image: aux[7],
+        games: ""
+    }
+    newPokemon.games = games;
+    pokemons.push(newPokemon);
 }
 console.log(pokemons);
 
@@ -87,10 +70,21 @@ function buildCard(pokemon){
     stats.className = 'card--text';
     createStatsList(stats, pokemon);
     card.append(title, image, stats);
+    appearedInGames(pokemon, card);
 }
 
-console.log(ulElementCards);
-
 pokemons.forEach(pokemon => {
-    buildCard(pokemon)
+    buildCard(pokemon);
 });
+
+function appearedInGames(pokemon, parentElement){
+    const games = createElement('ul');
+    games.innerText = 'Appeared in:'
+    games.className = 'card--text';
+    parentElement.append(games);
+    for(let i = 0; i < pokemon.games.length; i++){
+        const game = createElementWithText('li', `${pokemon.games[i]}`);
+        games.append(game);
+    }
+    console.log(games);
+}
