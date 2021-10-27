@@ -86,5 +86,4 @@ function appearedInGames(pokemon, parentElement){
         const game = createElementWithText('li', `${pokemon.games[i]}`);
         games.append(game);
     }
-    console.log(games);
 }
