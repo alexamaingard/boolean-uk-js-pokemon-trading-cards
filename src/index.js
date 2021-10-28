@@ -31,6 +31,10 @@ console.log(pokemons);
 
 const ulElementCards = document.querySelector('.cards');
 
+function capitalise(string) {
+    return string[0].toUpperCase() + string.slice(1);
+}
+
 function createElement(tag) {
     const element = document.createElement(tag);
     return element;
@@ -62,7 +66,7 @@ function buildCard(pokemon){
     const card = createElement('li');
     card.className = 'card';
     ulElementCards.append(card);
-    const title = createElementWithText('h2', pokemon.name);
+    const title = createElementWithText('h2', capitalise(pokemon.name));
     title.className = 'card--title';
     const image = createElement('img');
     createImage(image, pokemon.image);
@@ -83,7 +87,7 @@ function appearedInGames(pokemon, parentElement){
     games.className = 'card--text';
     parentElement.append(games);
     for(let i = 0; i < pokemon.games.length; i++){
-        const game = createElementWithText('li', `${pokemon.games[i]}`);
+        const game = createElementWithText('li', capitalise(`${pokemon.games[i]}`));
         games.append(game);
     }
 }
